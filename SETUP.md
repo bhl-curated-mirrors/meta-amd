@@ -25,30 +25,39 @@ sudo apt install -y gawk wget git diffstat unzip texinfo gcc \
 Select the Yocto Project branch:
 ```sh
 YOCTO_BRANCH="kirkstone"
+REPO_DIR="poky-amd-${YOCTO_BRANCH}"
 ```
 
 Clone the git repositories: 
 ```sh
-git clone --single-branch --branch "${YOCTO_BRANCH}" "git://git.yoctoproject.org/poky" "poky-amd-${YOCTO_BRANCH}"
-cd poky-amd-${YOCTO_BRANCH}
+git clone --single-branch --branch "${YOCTO_BRANCH}" "git://git.yoctoproject.org/poky" "${REPO_DIR}"
+cd "${REPO_DIR}"
+# Clone meta-openembedded and meta-dpdk repositories
 git clone --single-branch --branch "${YOCTO_BRANCH}" "git://git.openembedded.org/meta-openembedded"
 git clone --single-branch --branch "${YOCTO_BRANCH}" "git://git.yoctoproject.org/meta-dpdk"
-git clone --single-branch --branch "${YOCTO_BRANCH}" "git://git.yoctoproject.org/meta-virtualization"
-git clone --single-branch --branch "kirkstone-amd-epg" "git://git.yoctoproject.org/meta-amd"
 
+# Clone meta-virtualization for enable virtualization or libvirt
+git clone https://git.yoctoproject.org/meta-virtualization -b kirkstone
+
+# Clone meta-secure-core for tpm tools
+#git clone -b master https://github.com/Wind-River/meta-secure-core.git
+
+# Clone meta-amd repository using SSH
+git clone https://git.yoctoproject.org/meta-amd.git -b kirkstone-amd-epg
+
+# Clone for tpm-tools
+#git clone -b kirkstone https://github.com/Wind-River/meta-secure-core.git
+git clone -b kirkstone https://git.yoctoproject.org/git/meta-security
 ```
-Checkout commit hashes:
+
+# Checkout specific tags and branches
 ```sh
 git checkout --quiet tags/yocto-4.0.9
 cd meta-openembedded
 git checkout --quiet 402affcc073db39f782c1ebfd718edd5f11eed4c
 cd ../meta-dpdk
 git checkout --quiet 12cd9701455f17ff86681dba86e5c10f7b0deb7c
-cd ../meta-virtualization
-git checkout --quiet 88327090d26955a678c6f8bd2585aad4d802f6c4
-cd ../meta-amd
-git checkout --quiet tags/kirkstone-amd-epg-siena-202402
-cd ..
+
 ```
 ---
 #### What's next
@@ -56,4 +65,3 @@ cd ..
 Continue to "Section 2 - Setting up and starting a build"
 ([BUILD.md](BUILD.md)) for instructions on how to setup and start a
 build for a particular AMD machine.
-

@@ -2,7 +2,7 @@ require linux-yocto-6.6.inc
 
 PR := "${INC_PR}.0"
 
-SRCREV_machine = "5e9df83a705290c4d974693097df1da9cbe25854"
+SRCREV_machine = "9b4a8eac17f0d840729384618b4b1e876233026c"
 
 inherit kernel
 
@@ -48,6 +48,8 @@ PACKAGES =+ "extra-modules"
 
 EXTRA_OEMAKE += "INSTALL_MOD_STRIP=1"
 INSANE_SKIP:${PN} += "already-stripped"
+
+
 
 
 
