@@ -67,38 +67,6 @@ do_devshell:prepend() {
 }
 
 
-
-# board specific branches
-#KBRANCH:qemuarm  ?= "v5.15/standard/arm-versatile-926ejs"
-#KBRANCH:qemuarm64 ?= "v5.15/standard/qemuarm64"
-#KBRANCH:qemumips ?= "v5.15/standard/mti-malta32"
-#KBRANCH:qemuppc  ?= "v5.15/standard/qemuppc"
-#KBRANCH:qemuriscv64  ?= "v5.15/standard/base"
-#KBRANCH:qemuriscv32  ?= "v5.15/standard/base"
-#KBRANCH:qemux86  ?= "v5.15/standard/base"
-#KBRANCH:qemux86-64 ?= "v5.15/standard/base"
-#KBRANCH:qemumips64 ?= "v5.15/standard/mti-malta64"
-
-SRCREV_machine:qemuarm ?= "21687086c27bb112f19b0aac455d800961c0b830"
-SRCREV_machine:qemuarm64 ?= "7144f86a73fe2ffe4fe57c9e6cf28d8fc8db4b6a"
-SRCREV_machine:qemumips ?= "557c06060cb218ade536fccc66f8f3e755537f31"
-SRCREV_machine:qemuppc ?= "db19dbdcdf51b9d2a071dcf180ba9e20b8286e9b"
-SRCREV_machine:qemuriscv64 ?= "024d08fb706170a9723e9751e505681f9d4c7ab6"
-SRCREV_machine:qemuriscv32 ?= "024d08fb706170a9723e9751e505681f9d4c7ab6"
-SRCREV_machine:qemux86 ?= "024d08fb706170a9723e9751e505681f9d4c7ab6"
-SRCREV_machine:qemux86-64 ?= "024d08fb706170a9723e9751e505681f9d4c7ab6"
-SRCREV_machine:qemumips64 ?= "6f1dbe8c258d49f4dba59827124dfe9aa2c151db"
-SRCREV_machine ?= "024d08fb706170a9723e9751e505681f9d4c7ab6"
-SRCREV_meta ?= "441f5fe00073620cec471166cf6e94c4ef9c69b2"
-
-
-# set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
-# get the <version>/base branch, which is pure upstream -stable, and the same
-# meta SRCREV as the linux-yocto-standard builds. Select your version using the
-# normal PREFERRED_VERSION settings.
-#BBCLASSEXTEND = "devupstream:target"
-SRCREV_machine:class-devupstream ?= "8020ae3c051d1c9ec7b7a872e226f9720547649b"
-#PN:class-devupstream = "linux-yocto-upstream"
 KBRANCH:class-devupstream = "linux-6.6.y"
 
 INC_PR := "r1"
@@ -108,26 +76,23 @@ FILESOVERRIDES:append := ":${@bb.parse.vars_from_file(d.getVar('FILE', False),d)
 
 KERNELURI ?= "git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git;protocol=https;name=machine;branch=linux-6.6.y"
 YOCTO_META ?= "git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.5;destsuffix=yocto-kmeta"
-SRC_URI = "${KERNELURI};${SRCBRANCHARG} ${YOCTO_META} file://ntb.cfg file://ntb_netdev.cfg file://ntb_perf.cfg file://NVME-Core.cfg file://dmatest.cfg file://nvme.cfg file://ntbtool.cfg file://0002-net-phy-aquantia-Add-10mbps-support.patch file://0009-net-phy-Broadcom-Added-support-for-BCM84892-PHY-devi.patch file://0011-amd-xgbe-need-to-check-KR-training-before-restart-CL.patch file://0012-amd-xgbe-Custom-initialization-of-Marvell-PHY-on-Bil.patch file://0013-amd-xgbe-fix-to-Custom-initialization-of-Marvell-PHY.patch file://0014-amd-xgbe-Start-AN-with-KR-training-auto-start.patch file://0015-amd-xgbe-AN-force-modeset-to-10GKR-for-resetting-HW.patch file://0018-amd-xgbe-WA-patch-to-fix-the-AN-issue.patch file://0019-amd-xgbe-register-has-to-read-twice-to-get-correct-v.patch file://0020-amd-xgbe-v2-add-support-for-ethernet-LEDs.patch file://0021-amd-xgbe-Work-around-patch-for-10G-BCM-link-stabilit.patch file://0022-amd-xgbe-V2-extend-driver-functionality-to-support-1.patch file://0023-mmc-sdhci-acpi-eMMC-5.0-host-controller-fix-for-AMD-.patch file://0024-Bilby-dummy-codec.patch file://amdgpu.cfg file://cpuinfo.cfg file://spi.cfg file://cxl.cfg file://AE4DMA.cfg file://0031-amd-xgbe-PPS-periodic-output-support.patch file://0028-spi-spidev-Add-dummy-spidev-device-to-SPI-bus-for_0030-amd-xgbe-ptp-add-hw-time-stamp-changes.patch file://0017-net-phy-Custom-initialization-of-Marvell-PHY-on-Bilb.patch"
-
+SRC_URI = "${KERNELURI};${SRCBRANCHARG} ${YOCTO_META} file://ntb.cfg file://ntb_netdev.cfg file://ntb_perf.cfg file://NVME-Core.cfg file://dmatest.cfg file://nvme.cfg file://ntbtool.cfg file://0002-net-phy-aquantia-Add-10mbps-support.patch file://0009-net-phy-Broadcom-Added-support-for-BCM84892-PHY-devi.patch file://0011-amd-xgbe-need-to-check-KR-training-before-restart-CL.patch file://0012-amd-xgbe-Custom-initialization-of-Marvell-PHY-on-Bil.patch file://0013-amd-xgbe-fix-to-Custom-initialization-of-Marvell-PHY.patch file://0014-amd-xgbe-Start-AN-with-KR-training-auto-start.patch file://0015-amd-xgbe-AN-force-modeset-to-10GKR-for-resetting-HW.patch file://0018-amd-xgbe-WA-patch-to-fix-the-AN-issue.patch file://0019-amd-xgbe-register-has-to-read-twice-to-get-correct-v.patch file://0020-amd-xgbe-v2-add-support-for-ethernet-LEDs.patch file://0021-amd-xgbe-Work-around-patch-for-10G-BCM-link-stabilit.patch file://0022-amd-xgbe-V2-extend-driver-functionality-to-support-1.patch file://0023-mmc-sdhci-acpi-eMMC-5.0-host-controller-fix-for-AMD-.patch file://0024-Bilby-dummy-codec.patch file://cpuinfo.cfg file://spi.cfg file://cxl.cfg file://AE4DMA.cfg file://0031-amd-xgbe-PPS-periodic-output-support.patch file://0028-spi-spidev-Add-dummy-spidev-device-to-SPI-bus-for_0030-amd-xgbe-ptp-add-hw-time-stamp-changes.patch file://0017-net-phy-Custom-initialization-of-Marvell-PHY-on-Bilb.patch file://xgb.patch"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
-
 
 KMETA = "kernel-meta"
 KCONF_BSP_AUDIT_LEVEL = "1"
 
 KERNEL_DEVICETREE:qemuarmv5 = "versatile-pb.dtb"
 
-#COMPATIBLE_MACHINE = "^(qemuarm|qemuarmv5|qemuarm64|qemux86|qemuppc|qemuppc64|qemumips|qemumips64|qemux86-64|qemuriscv64|qemuriscv32)$"
 KBRANCH = "linux-6.6.y"
 
-SRCREV_machine = "5e9df83a705290c4d974693097df1da9cbe25854"
+SRCREV_machine = "9b4a8eac17f0d840729384618b4b1e876233026c"
 
-LINUX_VERSION = "6.6.9"
-
+LINUX_VERSION = "6.6.20"
 
 KMACHINE = "common-pc-64"
+
 SRCREV_meta = "8368cc1f9d0a6f8681602a918746df3b3932bad6"
 
 LINUX_VERSION_EXTENSION = "-amd-${LINUX_KERNEL_TYPE}"

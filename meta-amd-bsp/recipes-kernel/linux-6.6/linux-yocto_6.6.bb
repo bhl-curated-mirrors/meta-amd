@@ -10,18 +10,17 @@ SRCREV_meta ?= "1128d7bcdcde490d4f35cc00c97f5410bb240d99"
 # normal PREFERRED_VERSION settings.
 
 SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=linux-6.6.y; \
-           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
+           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}" 
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
-LINUX_VERSION ?= "6.6.9"
-
+LINUX_VERSION ?= "6.6.20"
 
 KMETA = "kernel-meta"
 KCONF_BSP_AUDIT_LEVEL = "1"
 
 KERNEL_DEVICETREE:qemuarmv5 = "versatile-pb.dtb"
 
-PV = "6.6.9"
+PV = "6.6.20"
 
 KERNEL_VERSION_SANITY_SKIP = "1"
 
