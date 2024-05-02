@@ -43,7 +43,7 @@ git clone https://git.yoctoproject.org/meta-virtualization -b kirkstone
 #git clone -b master https://github.com/Wind-River/meta-secure-core.git
 
 # Clone meta-amd repository using SSH
-git clone https://git.yoctoproject.org/meta-amd.git -b kirkstone-amd-epg
+git clone https://git.yoctoproject.org/meta-amd.git -b kirkstone-siena-beta-20240
 
 # Clone for tpm-tools
 #git clone -b kirkstone https://github.com/Wind-River/meta-secure-core.git
