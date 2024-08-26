@@ -1,8 +1,7 @@
-From 63116a12f2e4a710a417d6598cec28d16d66384d Mon Sep 17 00:00:00 2001
+From 0586838c2d0ee9df389aa877eed3ca202c95f155 Mon Sep 17 00:00:00 2001
 From: Sudheesh Mavila <sudheesh.mavila@amd.com>
 Date: Mon, 7 Aug 2023 17:17:36 +0530
-Subject: [PATCH 19/31] amd-xgbe: register has to read twice to get correct
- value
+Subject: [PATCH] amd-xgbe: register has to read twice to get correct value
 
 Link status is latched low, so read once to clear
 and then read again to get current state.
@@ -15,10 +14,10 @@ Change-Id: I58bdc7c594c03fecb8a84aeae4712035a6c5d209
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/net/ethernet/amd/xgbe/xgbe-phy-v2.c b/drivers/net/ethernet/amd/xgbe/xgbe-phy-v2.c
-index 9d823ef723f5..2fe7b93fe0ac 100755
+index e07a80229632..13020824d9fb 100644
 --- a/drivers/net/ethernet/amd/xgbe/xgbe-phy-v2.c
 +++ b/drivers/net/ethernet/amd/xgbe/xgbe-phy-v2.c
-@@ -2933,6 +2933,7 @@ static int xgbe_phy_link_status(struct xgbe_prv_data *pdata, int *an_restart)
+@@ -2937,6 +2937,7 @@ static int xgbe_phy_link_status(struct xgbe_prv_data *pdata, int *an_restart)
  
  		/* check again for the link and adaptation status */
  		reg = XMDIO_READ(pdata, MDIO_MMD_PCS, MDIO_STAT1);

@@ -1,0 +1,35 @@
+From 197577fd5f97c0dfa63e0ed8326b6bfc83ff40d7 Mon Sep 17 00:00:00 2001
+From: Kalyan Rankireddy <Kalyan.Rankireddy@amd.com>
+Date: Mon, 27 May 2024 14:10:53 +0530
+Subject: [PATCH] amd-xgbe: WA patch to fix the AN issue
+
+Repeated phy_start_aneg() is not required for CL45
+Phy firmware will handle auto negotiation.
+
+Signed-off-by: Kalyan Rankireddy <Kalyan.Rankireddy@amd.com>
+Change-Id: Id7a8e71eecdd16bdcf9d37c725aaf4135f3f18b1
+---
+ drivers/net/ethernet/amd/xgbe/xgbe-phy-v2.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/net/ethernet/amd/xgbe/xgbe-phy-v2.c b/drivers/net/ethernet/amd/xgbe/xgbe-phy-v2.c
+index 6a716337f48b..e07a80229632 100644
+--- a/drivers/net/ethernet/amd/xgbe/xgbe-phy-v2.c
++++ b/drivers/net/ethernet/amd/xgbe/xgbe-phy-v2.c
+@@ -1937,6 +1937,13 @@ static int xgbe_phy_an_config(struct xgbe_prv_data *pdata)
+ 		phy_data->phydev->duplex = pdata->phy.duplex;
+ 	}
+ 
++        /* In case of CL45, Phy firmware will handle autonegotiation */
++        netif_dbg(pdata, link, pdata->netdev, " phy_start_aneg an_mode:%d phydev_mode:%d\n",
++                                                        pdata->an_mode, phy_data->phydev_mode);
++        if ( (pdata->an_mode == XGBE_AN_MODE_MDIO) || (phy_data->phydev_mode == XGBE_MDIO_MODE_CL45) )
++                return 0;
++
++        netif_dbg(pdata, link, pdata->netdev, "  phy_start_aneg  called\n");
+ 	ret = phy_start_aneg(phy_data->phydev);
+ 
+ 	return ret;
+-- 
+2.34.1
+

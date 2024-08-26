@@ -1,8 +1,7 @@
-From 3edf0a8c28a1cf3cf5b6019cf2b4650a9cabf5e5 Mon Sep 17 00:00:00 2001
+From b3b2b8daccb9027fdc551258bbf286e17001a265 Mon Sep 17 00:00:00 2001
 From: Raju Rangoju <Raju.Rangoju@amd.com>
 Date: Thu, 7 Sep 2023 16:16:15 +0530
-Subject: [PATCH 22/31] amd-xgbe: V2: extend driver functionality to support
- 10GBaseT
+Subject: [PATCH] amd-xgbe: V2: extend driver functionality to support 10GBaseT
 
 The current xgbe driver supports 10GBaseT using 10GBaseKR (with
 CL73/CL72 AN). However, most of the PHYs supports only 10GBaseR and do
@@ -52,7 +51,7 @@ index f514a443ec4e..837427b6423d 100644
  
  	if (!xgbe_set_mode(pdata, mode))
 diff --git a/drivers/net/ethernet/amd/xgbe/xgbe-phy-v2.c b/drivers/net/ethernet/amd/xgbe/xgbe-phy-v2.c
-index ef97bf99f283..d69486552cf6 100755
+index 4b5139bbb01a..488c2f47750e 100644
 --- a/drivers/net/ethernet/amd/xgbe/xgbe-phy-v2.c
 +++ b/drivers/net/ethernet/amd/xgbe/xgbe-phy-v2.c
 @@ -382,6 +382,8 @@ struct xgbe_phy_data {
@@ -64,7 +63,7 @@ index ef97bf99f283..d69486552cf6 100755
  };
  
  /* I2C, MDIO and GPIO lines are muxed, so only one device at a time */
-@@ -1862,15 +1864,11 @@ static enum xgbe_mode xgbe_phy_an73_redrv_outcome(struct xgbe_prv_data *pdata)
+@@ -1878,15 +1880,11 @@ static enum xgbe_mode xgbe_phy_an73_redrv_outcome(struct xgbe_prv_data *pdata)
  	return mode;
  }
  
@@ -82,7 +81,7 @@ index ef97bf99f283..d69486552cf6 100755
  	/* Compare Advertisement and Link Partner register 1 */
  	ad_reg = XMDIO_READ(pdata, MDIO_MMD_AN, MDIO_AN_ADVERTISE);
  	lp_reg = XMDIO_READ(pdata, MDIO_MMD_AN, MDIO_AN_LPA);
-@@ -1894,6 +1892,18 @@ static enum xgbe_mode xgbe_phy_an73_outcome(struct xgbe_prv_data *pdata)
+@@ -1910,6 +1908,18 @@ static enum xgbe_mode xgbe_phy_an73_outcome(struct xgbe_prv_data *pdata)
  				pdata->phy.tx_pause = 1;
  		}
  	}
@@ -101,7 +100,7 @@ index ef97bf99f283..d69486552cf6 100755
  
  	/* Compare Advertisement and Link Partner register 2 */
  	ad_reg = XMDIO_READ(pdata, MDIO_MMD_AN, MDIO_AN_ADVERTISE + 1);
-@@ -1920,6 +1930,79 @@ static enum xgbe_mode xgbe_phy_an73_outcome(struct xgbe_prv_data *pdata)
+@@ -1936,6 +1946,79 @@ static enum xgbe_mode xgbe_phy_an73_outcome(struct xgbe_prv_data *pdata)
  	return mode;
  }
  
@@ -181,7 +180,7 @@ index ef97bf99f283..d69486552cf6 100755
  static enum xgbe_mode xgbe_phy_an_outcome(struct xgbe_prv_data *pdata)
  {
  	switch (pdata->an_mode) {
-@@ -1931,6 +2014,8 @@ static enum xgbe_mode xgbe_phy_an_outcome(struct xgbe_prv_data *pdata)
+@@ -1947,6 +2030,8 @@ static enum xgbe_mode xgbe_phy_an_outcome(struct xgbe_prv_data *pdata)
  		return xgbe_phy_an37_outcome(pdata);
  	case XGBE_AN_MODE_CL37_SGMII:
  		return xgbe_phy_an37_sgmii_outcome(pdata);
@@ -190,7 +189,7 @@ index ef97bf99f283..d69486552cf6 100755
  	default:
  		return XGBE_MODE_UNKNOWN;
  	}
-@@ -2080,7 +2165,10 @@ static enum xgbe_an_mode xgbe_phy_an_mode(struct xgbe_prv_data *pdata)
+@@ -2087,7 +2172,10 @@ static enum xgbe_an_mode xgbe_phy_an_mode(struct xgbe_prv_data *pdata)
  	case XGBE_PORT_MODE_NBASE_T:
  		return XGBE_AN_MODE_CL37_SGMII;
  	case XGBE_PORT_MODE_10GBASE_T:
@@ -202,7 +201,7 @@ index ef97bf99f283..d69486552cf6 100755
  	case XGBE_PORT_MODE_10GBASE_R:
  		return XGBE_AN_MODE_NONE;
  	case XGBE_PORT_MODE_SFP:
-@@ -2255,8 +2343,10 @@ static void xgbe_phy_rx_reset(struct xgbe_prv_data *pdata)
+@@ -2262,8 +2350,10 @@ static void xgbe_phy_rx_reset(struct xgbe_prv_data *pdata)
  
  static void xgbe_phy_pll_ctrl(struct xgbe_prv_data *pdata, bool enable)
  {
@@ -215,7 +214,7 @@ index ef97bf99f283..d69486552cf6 100755
  		return;
  
  	XMDIO_WRITE_BITS(pdata, MDIO_MMD_PMAPMD, MDIO_VEND2_PMA_MISC_CTRL0,
-@@ -2358,7 +2448,7 @@ static bool enable_rx_adap(struct xgbe_prv_data *pdata, enum xgbe_mode mode)
+@@ -2363,7 +2453,7 @@ static bool enable_rx_adap(struct xgbe_prv_data *pdata, enum xgbe_mode mode)
  
  	/* Rx-Adaptation is not supported on older platforms(< 0x30H) */
  	ver = XGMAC_GET_BITS(pdata->hw_feat.version, MAC_VR, SNPSVER);
@@ -224,7 +223,7 @@ index ef97bf99f283..d69486552cf6 100755
  		return false;
  
  	/* Re-driver models 4223 && 4227 do not support Rx-Adaptation */
-@@ -2369,7 +2459,8 @@ static bool enable_rx_adap(struct xgbe_prv_data *pdata, enum xgbe_mode mode)
+@@ -2374,7 +2464,8 @@ static bool enable_rx_adap(struct xgbe_prv_data *pdata, enum xgbe_mode mode)
  
  	/* 10G KR mode with AN does not support Rx-Adaptation */
  	if (mode == XGBE_MODE_KR &&
@@ -234,7 +233,7 @@ index ef97bf99f283..d69486552cf6 100755
  		return false;
  
  	pdata->en_rx_adap = 1;
-@@ -2715,6 +2806,11 @@ static void xgbe_phy_set_mode(struct xgbe_prv_data *pdata, enum xgbe_mode mode)
+@@ -2719,6 +2810,11 @@ static void xgbe_phy_set_mode(struct xgbe_prv_data *pdata, enum xgbe_mode mode)
  static bool xgbe_phy_check_mode(struct xgbe_prv_data *pdata,
  				enum xgbe_mode mode, bool advert)
  {
@@ -246,7 +245,7 @@ index ef97bf99f283..d69486552cf6 100755
  	if (pdata->phy.autoneg == AUTONEG_ENABLE) {
  		return advert;
  	} else {
-@@ -2990,25 +3086,46 @@ static int xgbe_get_phy_link_status(struct xgbe_prv_data *pdata, int *an_restart
+@@ -2994,25 +3090,46 @@ static int xgbe_get_phy_link_status(struct xgbe_prv_data *pdata, int *an_restart
  			return 0;
  		}
  
@@ -302,7 +301,7 @@ index ef97bf99f283..d69486552cf6 100755
  	}
  
  	/* Link status is latched low, so read once to clear
-@@ -3075,6 +3192,8 @@ static int xgbe_get_phy_link_status(struct xgbe_prv_data *pdata, int *an_restart
+@@ -3060,6 +3177,8 @@ static int xgbe_get_phy_link_status(struct xgbe_prv_data *pdata, int *an_restart
  		xgbe_phy_rrc(pdata);
  	}
  
@@ -312,10 +311,10 @@ index ef97bf99f283..d69486552cf6 100755
  }
  
 diff --git a/drivers/net/ethernet/amd/xgbe/xgbe.h b/drivers/net/ethernet/amd/xgbe/xgbe.h
-index 358061c4417f..125701fe85f3 100755
+index afde53cb5abc..0628ade6db60 100644
 --- a/drivers/net/ethernet/amd/xgbe/xgbe.h
 +++ b/drivers/net/ethernet/amd/xgbe/xgbe.h
-@@ -582,6 +582,7 @@ enum xgbe_an_mode {
+@@ -572,6 +572,7 @@ enum xgbe_an_mode {
  	XGBE_AN_MODE_CL73_REDRV,
  	XGBE_AN_MODE_CL37,
  	XGBE_AN_MODE_CL37_SGMII,
