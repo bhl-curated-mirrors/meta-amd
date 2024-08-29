@@ -2,7 +2,7 @@ require linux-yocto-6.6.inc
 
 PR := "${INC_PR}.0"
 
-SRCREV_machine = "0ccfb8e07e797d57830f3008028de56e22de6e0b"
+SRCREV_machine = "58b0425ff5df680d0b67f64ae1f3f1ebdf1c4de9"
 
 inherit kernel
 
@@ -27,7 +27,7 @@ do_install:append() {
     rm -rf ${D}/usr/lib/modules/${KERNEL_VERSION}/modules.dep
     rm -rf ${D}/usr/lib/modules/${KERNEL_VERSION}/modules.devname
     rm -rf ${D}/usr/lib/modules/${KERNEL_VERSION}/modules.symbols
-    rm -rf ${D}/usr/lib/modules/6.6.26-amd-standard/modules.softdep
+    rm -rf ${D}/usr/lib/modules/${KERNEL_VERSION}/modules.softdep
 }
 
 # Declare a package for the kernel modules
