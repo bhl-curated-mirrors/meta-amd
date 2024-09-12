@@ -11,6 +11,8 @@ display_help() {
     echo ""
     echo "Available boards:"
     echo "  v3000"
+    echo "  turin"
+    echo "  siena"
     echo ""
     echo "Available image types:"
     echo "  core-image-minimal"
@@ -62,6 +64,14 @@ case "$BOARD_NAME" in
 	v3000)
         MACHINE="v3000"
         TEMPLATECONF="${TOPDIR}/meta-amd/meta-amd-bsp/conf/templates/v3000/"
+        ;;
+	turin)
+        MACHINE="turin"
+        TEMPLATECONF="${TOPDIR}/meta-amd/meta-amd-bsp/conf/templates/turin/"
+        ;;
+	siena)
+	MACHINE="siena"
+        TEMPLATECONF="${TOPDIR}/meta-amd/meta-amd-bsp/conf/templates/siena/"
         ;;
     *)
         echo "ERROR: Unsupported board name '$BOARD_NAME'."
