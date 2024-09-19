@@ -1,5 +1,3 @@
-<<<<<<< HEAD   (b5467f Increased CONFIG_CMA_ALIGNMENT value from 8 to 12)
-=======
 #
 # This file is your local configuration file and is where all local user settings
 # are placed. The comments in this file give some guide to the options a new user
@@ -52,6 +50,10 @@ ROOT_HOME = "/home/root"
 # We default to enabling the debugging tweaks.
 EXTRA_IMAGE_FEATURES ?= "debug-tweaks"
 
+# Enable fortran
+IMAGE_FEATURES += "tools-sdk"
+FORTRAN:forcevariable = ",fortran"
+
 PREFERRED_VERSION_linux-yocto = "6.6"
 
 AMD_ENABLE_XEN = "0"
@@ -66,9 +68,8 @@ PACKAGE_CLASSES ?= "package_rpm"
 
 IMAGE_INSTALL:append = " iperf3 bridge-utils ndctl kernel-module-ntb fio stream ltp"
 
-IMAGE_INSTALL:append = " nvme-cli  rpm opkg lshw mokutil stress-ng hwloc tpm-tools  numactl packagegroup-core-buildessential lib64-setup coremark iproute2"
+IMAGE_INSTALL:append = " nvme-cli  rpm opkg lshw mokutil stress-ng hwloc tpm-tools  numactl packagegroup-core-buildessential lib64-setup coremark iproute2 cpupower ncurses libxcrypt-compat gfortran gfortran-symlinks libgfortran libgfortran-dev"
 
 DISTRO_FEATURES:append = " ptest pthread tpm systemd posix-testsuite"
 PREFERRED_PROVIDER_virtual/kernel = "linux-yocto"
 
->>>>>>> CHANGE (6f55ae Changed the homedir and disabled iptool in busybox)
